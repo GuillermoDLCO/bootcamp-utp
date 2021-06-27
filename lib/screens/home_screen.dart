@@ -20,17 +20,31 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     _HeaderTitles(),
                     SizedBox(
-                      height: 120,
+                      height: 90,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
-                          _CategoryWidget(label: 'Pizzas', isSelected: true),
-                          _CategoryWidget(label: 'Burger'),
-                          _CategoryWidget(label: 'Sandwich'),
-                          _CategoryWidget(label: 'Desayuno'),
-                          _CategoryWidget(label: 'Brocheta'),
-                          _CategoryWidget(label: 'Brocheta 2'),
-                          _CategoryWidget(label: 'Brocheta 3'),
+                          SizedBox(width: 15.0),
+                          _CategoryWidget(
+                            label: 'Pizzas',
+                            image: 'category_1',
+                            isSelected: true,
+                            numberNotification: 2,
+                          ),
+                          _CategoryWidget(label: 'Burger', image: 'category_2'),
+                          _CategoryWidget(
+                              label: 'Sandwich', image: 'category_3'),
+                          _CategoryWidget(
+                              label: 'Desayuno', image: 'category_4'),
+                          _CategoryWidget(
+                              label: 'Brocheta', image: 'category_5'),
+                          _CategoryWidget(
+                              label: 'Brocheta 2', image: 'category_1'),
+                          _CategoryWidget(
+                            label: 'Brocheta 3',
+                            image: 'category_2',
+                            numberNotification: 3,
+                          ),
                         ],
                       ),
                     ),
@@ -51,33 +65,59 @@ class _CategoryWidget extends StatelessWidget {
     Key? key,
     required this.label,
     this.isSelected = false,
+    required this.image,
+    this.numberNotification = 0,
   }) : super(key: key);
 
   final String label;
   final bool isSelected;
+  final String image;
+  final int numberNotification;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: isSelected ? Color(0xff572D86) : Colors.white,
-        ),
-        child: Column(
-          children: [
-            Container(
-              width: 70.0,
-              height: 70.0,
-            ), // TODO: IMPLEMENT ICON
-            Text(
-              '$label',
-              style: TextStyle(
-                  color: isSelected ? Colors.white : Color(0xff707070)),
-            )
-          ],
-        ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: isSelected ? Color(0xff572D86) : Colors.white,
+            ),
+            child: Column(
+              children: [
+                Container(
+                  width: 65.0,
+                  height: 50.0,
+                  padding: const EdgeInsets.all(15),
+                  child: SvgPicture.asset('assets/$image.svg'),
+                ),
+                Text(
+                  '$label',
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : Color(0xff707070),
+                    fontSize: isSelected ? 10.0 : 8.0,
+                  ),
+                )
+              ],
+            ),
+          ),
+          if (numberNotification > 0)
+            Positioned(
+              right: -5,
+              top: -5,
+              child: CircleAvatar(
+                child: Text(
+                  '$numberNotification',
+                  style: TextStyle(color: Colors.white),
+                ),
+                radius: 12,
+                backgroundColor: Color(0xffC3D61B),
+              ),
+            ),
+        ],
       ),
     );
   }

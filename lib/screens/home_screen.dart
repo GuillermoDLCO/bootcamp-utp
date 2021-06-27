@@ -1,7 +1,12 @@
+import 'package:bootcamp_utp/models/item.dart';
+import 'package:bootcamp_utp/routes/routes.dart';
+import 'package:bootcamp_utp/screens/item_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomeScreen extends StatelessWidget {
+  static Widget create(BuildContext context) => const HomeScreen();
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -129,119 +134,133 @@ class _ItemDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(15.0),
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xff4A72A8).withOpacity(.16),
-            blurRadius: 15,
-            offset: const Offset(0, 15),
-          )
-        ],
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(
+        context,
+        Routes.itemDetail,
+        arguments: ItemDetailsScreenArguments(
+          item: Item(
+            name: name,
+            description: description,
+            image: image,
+            price: price,
+          ),
+        ),
       ),
-      child: Stack(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                  flex: 1,
-                  child: Center(
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Image.asset('assets/$image.png'),
-                        if (porcentageDiscount != null)
-                          Positioned(
-                            left: -5,
-                            top: -5,
-                            child: CircleAvatar(
-                              backgroundColor: const Color(0xffEE3169),
-                              radius: 15,
-                              child: Text(
-                                '${porcentageDiscount!.toStringAsFixed(0)}%',
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+      child: Container(
+        padding: const EdgeInsets.all(15.0),
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xff4A72A8).withOpacity(.16),
+              blurRadius: 15,
+              offset: const Offset(0, 15),
+            )
+          ],
+        ),
+        child: Stack(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Image.asset('assets/$image.png'),
+                          if (porcentageDiscount != null)
+                            Positioned(
+                              left: -5,
+                              top: -5,
+                              child: CircleAvatar(
+                                backgroundColor: const Color(0xffEE3169),
+                                radius: 15,
+                                child: Text(
+                                  '${porcentageDiscount!.toStringAsFixed(0)}%',
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                      ],
-                    ),
-                  )),
-              Expanded(
-                flex: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xff0D1863),
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      description,
-                      style: const TextStyle(
-                        fontSize: 8,
-                        color: Color(0xff0D1863),
-                      ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      '\$${price.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: Color(0xffC3D61B),
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    if (previousPrice != null)
-                      Row(
-                        children: [
-                          const Text(
-                            'Antes ',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Color(0xffBAC8D3),
-                            ),
-                          ),
-                          Text(
-                            '\$${previousPrice!.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontSize: 10,
-                              color: Color(0xffBAC8D3),
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                          ),
                         ],
                       ),
-                  ],
+                    )),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xff0D1863),
+                        ),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        description,
+                        style: const TextStyle(
+                          fontSize: 8,
+                          color: Color(0xff0D1863),
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        '\$${price.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 15,
+                          color: Color(0xffC3D61B),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 4.0),
+                      if (previousPrice != null)
+                        Row(
+                          children: [
+                            const Text(
+                              'Antes ',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Color(0xffBAC8D3),
+                              ),
+                            ),
+                            Text(
+                              '\$${previousPrice!.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                fontSize: 10,
+                                color: Color(0xffBAC8D3),
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: CircleAvatar(
+                backgroundColor: const Color(0xff572D86),
+                child: SvgPicture.asset(
+                  'assets/shopping-cart.svg',
+                  height: 15.0,
                 ),
-              )
-            ],
-          ),
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: CircleAvatar(
-              backgroundColor: const Color(0xff572D86),
-              child: SvgPicture.asset(
-                'assets/shopping-cart.svg',
-                height: 15.0,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
